@@ -57,6 +57,14 @@
 </section>
 
 <!-- FEATURED CATS -->
+    <h2>Meet our Kittens</h2>
+<ul>
+  {% for kitten in site.kittens %}
+    <li>
+      <a href="{{ kitten.url }}">{{ kitten.name }}</a> - {{ kitten.breed }}
+    </li>
+  {% endfor %}
+</ul>
 <section class="section">
     <div class="container">
         <div class="text-center">
@@ -124,37 +132,7 @@
     </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="section testimonials">
-    <div class="container">
-        <div class="text-center">
-            <span class="section-label">Happy Families</span>
-            <h2 class="section-title">What Our Families Say</h2>
-            <p class="section-subtitle">Hear from the wonderful families who have welcomed our Persian cats into their homes.</p>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"We adopted Luna 6 months ago and she has been the most affectionate, gentle cat. The breeder was so helpful and kept in touch even after adoption!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">&#128100;</div>
-                    <div><div class="testimonial-name">Sarah M.</div><div class="testimonial-location">New York, USA</div></div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"Our golden Persian Leo is absolutely gorgeous and so well-socialized. He adapted to our home immediately. Highly recommend Only Persians!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">&#128100;</div>
-                    <div><div class="testimonial-name">James K.</div><div class="testimonial-location">London, UK</div></div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"The entire process was smooth and transparent. Our kitten came with all health documents and the breeder answered every question patiently."</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">&#128100;</div>
-                    <div><div class="testimonial-name">Priya R.</div><div class="testimonial-location">Toronto, Canada</div></div>
+
                 </div>
             </div>
         </div>
