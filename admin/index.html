@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Only Persians</title>
+    <link rel="icon" type="image/png" href="../images/logo-icon.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Lato:wght@400;600;700&display=swap');
+        :root {
+            --cream:#FFF8F0; --cream-dark:#F0E8DC;
+            --terra:#C0522A; --terra-dark:#A04020; --terra-light:#E8784A;
+            --sage:#6B8F71;  --sage-dark:#4A6B50;
+            --brown:#4A3B32; --brown-light:#6B4F3A; --brown-muted:#8B6355;
+            --border:#E8D8C8; --white:#fff;
+            --shadow:0 4px 16px rgba(90,50,20,.10);
+            --radius:12px;
+            --font-head:'Playfair Display',Georgia,serif;
+            --font-body:'Lato',Arial,sans-serif;
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:var(--font-body);background:#f4f0eb;color:var(--brown);line-height:1.6}
+        h1,h2,h3,h4{font-family:var(--font-head)}
+        a{color:var(--terra);text-decoration:none}
+
+        /* ── Login ──────────────────────────────────────────── */
+        #loginScreen{
+            display:flex;align-items:center;justify-content:center;
+            min-height:100vh;background:linear-gradient(135deg,#2C1F14 0%,#6B3A20 100%);
+        }
+        .login-card{
+            background:var(--white);border-radius:20px;padding:48px 40px;
+            width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;
+        }
+        .login-logo{width:60px;height:60px;object-fit:contain;margin:0 auto 14px}
+        .login-title{font-size:1.8rem;color:var(--terra);margin-bottom:6px}
+        .login-sub{color:var(--brown-muted);font-size:.9rem;margin-bottom:28px}
+        .login-error{background:#fde8e8;color:#c0392b;padding:10px 14px;border-radius:8px;margin-bottom:16px;display:none;font-size:.88rem}
+        .login-card .form-group{margin-bottom:16px;text-align:left}
+        .login-card label{display:block;font-weight:700;font-size:.85rem;margin-bottom:6px;color:var(--brown)}
+        .login-card input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.95rem;background:var(--cream);transition:.2s}
+        .login-card input:focus{outline:none;border-color:var(--terra);background:var(--white)}
+        .login-btn{width:100%;padding:13px;background:var(--terra);color:var(--white);border:none;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body);margin-top:8px;transition:.2s}
+        .login-btn:hover{background:var(--terra-dark)}
+
+        /* ── Admin Layout ───────────────────────────────────── */
+        #adminScreen{display:none}
+        .admin-layout{display:flex;min-height:100vh}
+
+        .admin-sidebar{
+            width:250px;background:linear-gradient(180deg,#2C1F14 0%,#4A2810 100%);
+            color:rgba(255,255,255,.8);display:flex;flex-direction:column;
+            position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto;
+        }
+        .admin-brand{
+            padding:22px 20px;font-family:var(--font-head);font-size:1.1rem;
+            color:var(--white);border-bottom:1px solid rgba(255,255,255,.1);line-height:1.4;
+        }
+        .admin-nav{padding:12px 0;flex:1}
+        .admin-nav a{
+            display:flex;align-items:center;gap:10px;padding:12px 20px;
+            color:rgba(255,255,255,.7);font-weight:600;font-size:.9rem;
+            transition:.2s;border-left:3px solid transparent;
+        }
+        .admin-nav a:hover,.admin-nav a.active{
+            color:var(--white);background:rgba(255,255,255,.08);border-left-color:var(--terra-light);
+        }
+        .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1)}
+        .logout-btn{
+            width:100%;padding:10px;background:rgba(192,82,42,.3);color:rgba(255,255,255,.8);
+            border:1px solid rgba(192,82,42,.4);border-radius:8px;cursor:pointer;
+            font-family:var(--font-body);font-size:.88rem;transition:.2s;
+        }
+        .logout-btn:hover{background:rgba(192,82,42,.6);color:var(--white)}
+
+        .admin-main{margin-left:250px;flex:1;display:flex;flex-direction:column}
+        .admin-topbar{
+            background:var(--white);padding:0 28px;height:62px;display:flex;
+            align-items:center;justify-content:space-between;
+            box-shadow:0 2px 8px rgba(90,50,20,.08);position:sticky;top:0;z-index:50;
+        }
+        .admin-topbar h1{font-size:1.15rem;color:var(--brown)}
+        .admin-body{padding:26px;flex:1}
+
+        /* ── Sections ───────────────────────────────────────── */
+        .admin-section{display:none}
+        .admin-section.active{display:block}
+
+        /* ── Stat Cards ─────────────────────────────────────── */
+        .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+        .stat-card{background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center}
+        .stat-num{font-size:2.2rem;font-weight:700;color:var(--terra);font-family:var(--font-head)}
+        .stat-lbl{font-size:.82rem;color:var(--brown-muted);margin-top:4px}
+
+        /* ── Card ───────────────────────────────────────────── */
+        .card{background:var(--white);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:22px}
+        .card h3{font-size:1rem;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);color:var(--brown-light)}
+        .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+        .sec-header h2{font-size:1.25rem}
+
+        /* ── Buttons ────────────────────────────────────────── */
+        .btn{display:inline-block;padding:10px 22px;border-radius:24px;border:none;font-family:var(--font-body);font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s}
+        .btn-primary{background:var(--terra);color:var(--white)}
+        .btn-primary:hover{background:var(--terra-dark)}
+        .btn-outline{background:transparent;color:var(--terra);border:2px solid var(--terra)}
+        .btn-outline:hover{background:var(--terra);color:var(--white)}
+        .btn-sm{padding:6px 14px;font-size:.82rem}
+        .btn-edit{background:rgba(107,143,113,.15);color:var(--sage-dark);border:1px solid var(--sage);padding:5px 12px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;font-family:var(--font-body);transition:.2s}
+        .btn-edit:hover{background:var(--sage);color:var(--white)}
+        .btn-del{background:rgba(192,82,42,.1);color:var(--terra);border:1px solid var(--terra);padding:5px 12px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;font-family:var(--font-body);transition:.2s}
+        .btn-del:hover{background:var(--terra);color:var(--white)}
+
+        /* ── Table ──────────────────────────────────────────── */
+        .table-wrap{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden}
+        .table{width:100%;border-collapse:collapse}
+        .table th{background:var(--cream-dark);padding:11px 16px;text-align:left;font-size:.82rem;color:var(--brown-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+        .table td{padding:11px 16px;border-top:1px solid var(--border);vertical-align:middle;font-size:.88rem}
+        .table td img{width:50px;height:50px;object-fit:cover;border-radius:8px}
+        .table tr:hover td{background:rgba(255,248,240,.5)}
+        .badge{padding:3px 10px;border-radius:10px;font-size:.76rem;font-weight:700}
+        .badge-success{background:rgba(107,143,113,.15);color:var(--sage-dark)}
+        .badge-warning{background:rgba(192,82,42,.12);color:var(--terra)}
+
+        /* ── Form ───────────────────────────────────────────── */
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .form-grid .full{grid-column:1/-1}
+        .form-group{margin-bottom:16px}
+        .form-group label{display:block;font-weight:700;font-size:.85rem;margin-bottom:6px;color:var(--brown)}
+        .form-control{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.9rem;background:var(--cream);transition:.2s}
+        .form-control:focus{outline:none;border-color:var(--terra);background:var(--white)}
+        textarea.form-control{resize:vertical;min-height:80px}
+        .form-check{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.9rem}
+        .form-check input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--terra)}
+        .divider{height:1px;background:var(--border);margin:20px 0}
+
+        /* ── Alert ──────────────────────────────────────────── */
+        .alert{display:none;padding:11px 16px;border-radius:10px;margin-bottom:16px;font-weight:600;font-size:.88rem}
+        .alert-success{background:rgba(107,143,113,.15);color:var(--sage-dark);border:1px solid rgba(107,143,113,.3)}
+
+        /* ── Modal ──────────────────────────────────────────── */
+        .modal-overlay{
+            display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);
+            z-index:1000;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 16px;
+        }
+        .modal-overlay.open{display:flex}
+        .modal{background:var(--white);border-radius:20px;width:100%;max-width:720px;box-shadow:0 20px 60px rgba(0,0,0,.25);margin:auto}
+        .modal-header{padding:20px 26px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+        .modal-header h3{font-size:1.15rem}
+        .modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--brown-muted);line-height:1;padding:4px}
+        .modal-close:hover{color:var(--terra)}
+        .modal-body{padding:26px}
+        .modal-footer{padding:16px 26px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+
+        /* ── Multi-Image Upload ─────────────────────────────── */
+        .drop-zone{
+            border:2px dashed var(--border);border-radius:var(--radius);padding:26px;
+            text-align:center;transition:.2s;background:var(--cream);position:relative;cursor:pointer;
+        }
+        .drop-zone:hover,.drop-zone.drag-over{border-color:var(--terra);background:rgba(192,82,42,.04)}
+        .drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+        .drop-zone-icon{font-size:2.2rem;margin-bottom:8px}
+        .drop-zone-text{color:var(--brown-muted);font-size:.88rem}
+        .drop-zone-text strong{color:var(--terra)}
+
+        /* Thumbnail grid */
+        .img-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:14px}
+        .img-thumb{position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--border);aspect-ratio:1;background:#f5ede4;cursor:default}
+        .img-thumb.is-primary{border-color:var(--terra);box-shadow:0 0 0 3px rgba(192,82,42,.2)}
+        .img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+        .img-thumb-actions{
+            position:absolute;bottom:0;left:0;right:0;
+            background:linear-gradient(transparent,rgba(0,0,0,.7));
+            padding:5px 5px 7px;display:flex;gap:3px;justify-content:center;
+            opacity:0;transition:.18s;
+        }
+        .img-thumb:hover .img-thumb-actions{opacity:1}
+        .t-btn{background:rgba(255,255,255,.92);border:none;border-radius:5px;padding:3px 7px;font-size:.7rem;font-weight:700;cursor:pointer;transition:.15s}
+        .t-btn.primary{color:var(--terra)}
+        .t-btn.remove{color:#c0392b}
+        .t-btn:hover{background:var(--white);transform:scale(1.05)}
+        .primary-tag{position:absolute;top:5px;left:5px;background:var(--terra);color:var(--white);font-size:.65rem;font-weight:700;padding:2px 6px;border-radius:6px}
+        .img-count{font-size:.8rem;color:var(--brown-muted);margin-top:8px;text-align:center}
+
+        /* ── Responsive ─────────────────────────────────────── */
+        @media(max-width:900px){
+            .admin-sidebar{transform:translateX(-100%);transition:.3s}
+            .admin-main{margin-left:0}
+            .stat-cards{grid-template-columns:1fr 1fr}
+            .form-grid{grid-template-columns:1fr}
+        }
+        @media(max-width:500px){
+            .stat-cards{grid-template-columns:1fr}
+            .modal-body{padding:16px}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════════════ -->
+<div id="loginScreen">
+    <div class="login-card">
+        <img src="../images/logo-icon.png" alt="Logo" class="login-logo">
+        <h2 class="login-title">Only Persians</h2>
+        <p class="login-sub">Admin Panel — Authorized Access Only</p>
+        <div class="login-error" id="loginError">Incorrect username or password. Please try again.</div>
+        <div class="form-group">
+            <label for="loginUser">Username</label>
+            <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username">
+        </div>
+        <div class="form-group">
+            <label for="loginPass">Password</label>
+            <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password">
+        </div>
+        <button class="login-btn" onclick="doLogin()">Sign In</button>
+        <p style="margin-top:18px;font-size:.85rem;"><a href="../index.html" style="color:var(--terra);">&#8592; Back to Website</a></p>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     ADMIN SCREEN
+══════════════════════════════════════════════════════════ -->
+<div id="adminScreen">
+<div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-brand">&#128008; Only Persians<br><small style="font-weight:400;opacity:.7;font-family:Lato,sans-serif;font-size:.78rem;">Admin Panel</small></div>
+        <nav class="admin-nav">
+            <a href="#" class="active" onclick="return showSection('dashboard',this)">&#128202; Dashboard</a>
+            <a href="#" onclick="return showSection('cats',this)">&#128008; Manage Cats</a>
+            <a href="#" onclick="return showSection('contact',this)">&#128222; Contact &amp; Info</a>
+            <a href="#" onclick="return showSection('settings',this)">&#9881; Settings</a>
+            <a href="../index.html" target="_blank">&#127758; View Website</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="doLogout()">&#128682; Sign Out</button>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <h1 id="sectionTitle">Dashboard</h1>
+            <span style="font-size:.82rem;color:var(--brown-muted);">Welcome, Admin</span>
+        </div>
+        <div class="admin-body">
+
+            <!-- ── DASHBOARD ─────────────────────────────────── -->
+            <section id="sec-dashboard" class="admin-section active">
+                <div class="stat-cards">
+                    <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-lbl">Total Cats</div></div>
+                    <div class="stat-card"><div class="stat-num" id="statAvail">0</div><div class="stat-lbl">Available</div></div>
+                    <div class="stat-card"><div class="stat-num" id="statReserved">0</div><div class="stat-lbl">Reserved</div></div>
+                    <div class="stat-card"><div class="stat-num" id="statImgs">0</div><div class="stat-lbl">With Photos</div></div>
+                </div>
+                <div class="card">
+                    <h3>&#9889; Quick Actions</h3>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0;">
+                        <button class="btn btn-primary btn-sm" onclick="openCatModal(null);showSection('cats',document.querySelector('[onclick*=cats]'))">+ Add New Cat</button>
+                        <button class="btn btn-sm" style="background:var(--sage);color:white;" onclick="showSection('contact',document.querySelector('[onclick*=contact]'))">&#9998; Edit Contact Info</button>
+                        <a href="../index.html" target="_blank" class="btn btn-sm" style="background:#3498db;color:white;">&#127758; View Website</a>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <div style="padding:14px 18px;border-bottom:1px solid var(--border);font-weight:700;font-size:.9rem;">All Cats Overview</div>
+                    <div id="dashCatTable" style="padding:6px 0;"></div>
+                </div>
+            </section>
+
+            <!-- ── MANAGE CATS ───────────────────────────────── -->
+            <section id="sec-cats" class="admin-section">
+                <div class="sec-header">
+                    <h2>Manage Cats</h2>
+                    <button class="btn btn-primary" onclick="openCatModal(null)">+ Add New Cat</button>
+                </div>
+                <div class="table-wrap">
+                    <div id="catsTableContainer" style="padding:6px 0;"></div>
+                </div>
+            </section>
+
+            <!-- ── CONTACT & INFO ────────────────────────────── -->
+            <section id="sec-contact" class="admin-section">
+                <div class="sec-header"><h2>Contact &amp; Info</h2></div>
+                <div class="alert alert-success" id="contactAlert">&#10003; Contact information saved successfully!</div>
+
+                <div class="card">
+                    <h3>&#128222; Contact Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Phone Number</label><input type="text" id="ci-phone" class="form-control" placeholder="+1 (555) 123-4567"></div>
+                        <div class="form-group"><label>Email Address</label><input type="email" id="ci-email" class="form-control" placeholder="hello@onlypersians.com"></div>
+                        <div class="form-group full"><label>Physical Address</label><input type="text" id="ci-address" class="form-control" placeholder="123 Kitten Lane, Pet City, CA 90210"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>&#128336; Business Hours</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Weekday Hours</label><input type="text" id="ci-hoursWeekday" class="form-control" placeholder="Monday – Friday: 9:00 AM – 6:00 PM"></div>
+                        <div class="form-group"><label>Saturday Hours</label><input type="text" id="ci-hoursSat" class="form-control" placeholder="Saturday: 10:00 AM – 4:00 PM"></div>
+                        <div class="form-group"><label>Sunday Hours</label><input type="text" id="ci-hoursSun" class="form-control" placeholder="Sunday: By Appointment Only"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>&#128279; Social Media &amp; Links</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Facebook URL</label><input type="url" id="ci-facebook" class="form-control" placeholder="https://facebook.com/yourpage"></div>
+                        <div class="form-group"><label>Instagram URL</label><input type="url" id="ci-instagram" class="form-control" placeholder="https://instagram.com/yourpage"></div>
+                        <div class="form-group"><label>WhatsApp Link</label><input type="url" id="ci-whatsapp" class="form-control" placeholder="https://wa.me/15551234567"></div>
+                        <div class="form-group"><label>Google Form URL <span style="color:var(--terra);">(Inquiry Form)</span></label><input type="url" id="ci-googleForm" class="form-control" placeholder="https://forms.gle/abc123"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>&#128444; Hero Banner Image</h3>
+                    <div class="form-group">
+                        <label>Hero Image Filename (must be in <code>images/</code> folder)</label>
+                        <input type="text" id="ci-heroImg" class="form-control" placeholder="hero-bg.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload New Hero Image</label>
+                        <div class="drop-zone" style="max-width:420px;">
+                            <input type="file" accept="image/*" onchange="previewHeroImg(this)">
+                            <div class="drop-zone-icon">&#128444;</div>
+                            <div class="drop-zone-text"><strong>Click to upload</strong> hero banner<br><small>Recommended: 1920×600px JPG</small></div>
+                        </div>
+                        <img id="heroImgPreview" src="" alt="Hero Preview" style="display:none;max-width:100%;max-height:180px;border-radius:10px;margin-top:12px;object-fit:cover;">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="saveContactInfo()">&#10003; Save All Contact Information</button>
+            </section>
+
+            <!-- ── SETTINGS ──────────────────────────────────── -->
+            <section id="sec-settings" class="admin-section">
+                <div class="sec-header"><h2>Settings</h2></div>
+                <div class="alert alert-success" id="settingsAlert">&#10003; Settings saved successfully!</div>
+
+                <div class="card">
+                    <h3>&#127758; Site Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Site Name</label><input type="text" id="set-siteName" class="form-control" value="Only Persians"></div>
+                        <div class="form-group"><label>Tagline</label><input type="text" id="set-tagline" class="form-control" value="Lovingly Raised Persian Cats"></div>
+                        <div class="form-group"><label>Happy Families Count</label><input type="text" id="set-families" class="form-control" value="50+"></div>
+                        <div class="form-group"><label>Years of Experience</label><input type="text" id="set-years" class="form-control" value="8+"></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveSiteSettings()">&#10003; Save Site Settings</button>
+                </div>
+
+                <div class="card">
+                    <h3>&#128274; Change Admin Password</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Current Password</label><input type="password" id="set-currentPass" class="form-control" placeholder="Enter current password"></div>
+                        <div class="form-group"><label>New Password</label><input type="password" id="set-newPass" class="form-control" placeholder="Min. 6 characters"></div>
+                        <div class="form-group"><label>Confirm New Password</label><input type="password" id="set-confirmPass" class="form-control" placeholder="Repeat new password"></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="changePassword()">&#128274; Update Password</button>
+                </div>
+
+                <div class="card" style="border-color:#F5C6BB;">
+                    <h3 style="color:#c0392b;">&#9888; Danger Zone</h3>
+                    <p style="color:var(--brown-muted);margin-bottom:16px;font-size:.88rem;">Reset all cats and contact info back to default values. This cannot be undone.</p>
+                    <button class="btn btn-del" onclick="resetAllData()">&#128465; Reset All Data to Defaults</button>
+                </div>
+            </section>
+
+        </div><!-- /admin-body -->
+    </main>
+</div><!-- /admin-layout -->
+</div><!-- /adminScreen -->
+
+<!-- ══════════════════════════════════════════════════════════
+     CAT MODAL — Add / Edit with Multi-Image Upload
+══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="catModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalTitle">Add New Cat</h3>
+            <button class="modal-close" onclick="closeCatModal()">&#10005;</button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-success" id="catAlert">&#10003; Cat saved successfully!</div>
+            <input type="hidden" id="cat-id">
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cat Name <span style="color:red">*</span></label>
+                    <input type="text" id="cat-name" class="form-control" placeholder="e.g. Luna">
+                </div>
+                <div class="form-group">
+                    <label>Breed <span style="color:red">*</span></label>
+                    <input type="text" id="cat-breed" class="form-control" placeholder="e.g. White Persian">
+                </div>
+                <div class="form-group">
+                    <label>Color / Pattern</label>
+                    <input type="text" id="cat-color" class="form-control" placeholder="e.g. White, Silver">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="cat-gender" class="form-control">
+                        <option>Female</option>
+                        <option>Male</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="text" id="cat-age" class="form-control" placeholder="e.g. 12 Weeks, 4 Months">
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" id="cat-price" class="form-control" placeholder="e.g. $1,200">
+                </div>
+                <div class="form-group full">
+                    <label>Description</label>
+                    <textarea id="cat-desc" class="form-control" rows="3" placeholder="Describe the cat's personality, appearance, and any special traits..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label style="margin-bottom:10px;">Health &amp; Status</label>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <label class="form-check"><input type="checkbox" id="cat-vaccinated"> Vaccinated</label>
+                        <label class="form-check"><input type="checkbox" id="cat-microchipped"> Microchipped</label>
+                        <label class="form-check"><input type="checkbox" id="cat-available" checked> Available for Adoption</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Default Image Filename</label>
+                    <input type="text" id="cat-imgFile" class="form-control" placeholder="e.g. cat-luna.jpg">
+                    <small style="color:var(--brown-muted);font-size:.78rem;display:block;margin-top:4px;">File must exist in the <code>images/</code> folder on the server.</small>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- ── MULTI-IMAGE UPLOAD ─────────────────────────── -->
+            <div class="form-group">
+                <label style="font-size:.95rem;margin-bottom:4px;display:block;">
+                    &#128247; Cat Photos
+                    <span style="font-weight:400;color:var(--brown-muted);font-size:.85rem;"> — Upload multiple images (first image = primary display photo)</span>
+                </label>
+                <p style="font-size:.8rem;color:var(--brown-muted);margin-bottom:12px;">
+                    Drag &amp; drop or click to select. Hover over a thumbnail to set as primary or remove it.
+                </p>
+
+                <!-- Drop Zone -->
+                <div class="drop-zone" id="dropZone">
+                    <input type="file" id="catImgInput" accept="image/*" multiple onchange="handleImgFiles(this.files)">
+                    <div class="drop-zone-icon">&#128193;</div>
+                    <div class="drop-zone-text">
+                        <strong>Click to select</strong> or drag &amp; drop images here<br>
+                        <small>JPG, PNG, WEBP &mdash; Max 5 MB each &mdash; Multiple files allowed</small>
+                    </div>
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div id="imgGalleryGrid" class="img-gallery-grid"></div>
+                <div class="img-count-info" id="imgCountInfo"></div>
+            </div>
+        </div><!-- /modal-body -->
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeCatModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveCat()">&#10003; Save Cat</button>
+        </div>
+    </div>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>
