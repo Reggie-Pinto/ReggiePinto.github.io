@@ -1,4 +1,0 @@
-collections:
-  _kittens:
-    output: true
-    permalink: /kittens/:path/
