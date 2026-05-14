@@ -31,8 +31,7 @@ const PP = (function () {
             imgFile: 'cat-whitetip-1.png',
             images: [
                 { dataUrl: null, filename: 'cat-whitetip-1.png' },
-                { dataUrl: null, filename: 'cat-whitetip-2.jpg' }
-            ]
+              ]
         },
         {
             id: 2,
@@ -46,26 +45,26 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-jasper.png',
+            imgFile: 'cat-ivy.png',
             images: [
-                { dataUrl: null, filename: 'cat-jasper.png' }
+                { dataUrl: null, filename: 'cat-ivy.jpg' }
             ]
         },
         {
             id: 3,
-            name: 'Jasper',
+            name: 'Casper',
             breed: 'Dark Grey Persian',
             color: 'Dark Grey',
             gender: 'Male',
             age: '3 Months',
             price: '\u20b97,000',
-            description: 'Jasper is a handsome pure dark grey Persian with warm amber eyes. He is sociable, playful, and very smart. He likes to be with his care taker wherever they go. He can be trained to do tricks.',
+            description: 'Casper is a handsome pure dark grey Persian with warm amber eyes. He is sociable, playful, and very smart. He likes to be with his care taker wherever they go. He can be trained to do tricks.',
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-jasper.png',
+            imgFile: 'cat-casper.png',
             images: [
-                { dataUrl: null, filename: 'cat-jasper.png' }
+                { dataUrl: null, filename: 'cat-casper.png' }
             ]
         },
         {
@@ -104,8 +103,8 @@ const PP = (function () {
     const DEFAULT_SETTINGS = {
         siteName: 'Only Persians',
         tagline:  'Lovingly Raised Persian Cats',
-        families: '50+',
-        years:    '8+'
+        families: '20+',
+        years:    '6+'
     };
 
     const DEFAULT_ADMIN = {
