@@ -28,10 +28,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-whitetip-1.png',
+            imgFile: 'cat-whitetip.PNG',
             images: [
-                { dataUrl: null, filename: 'cat-whitetip-1.png' },
-                { dataUrl: null, filename: 'cat-whitetip-2.jpg' }
+                { dataUrl: null, filename: 'cat-whitetip.PNG' },
             ]
         },
         {
@@ -46,26 +45,26 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-jasper.png',
+            imgFile: 'cat-ivy.PNG',
             images: [
-                { dataUrl: null, filename: 'cat-jasper.png' }
+                { dataUrl: null, filename: 'cat-ivy.PNG' }
             ]
         },
         {
             id: 3,
-            name: 'Jasper',
+            name: 'Casper',
             breed: 'Dark Grey Persian',
             color: 'Dark Grey',
             gender: 'Male',
             age: '3 Months',
             price: '\u20b97,000',
-            description: 'Jasper is a handsome pure dark grey Persian with warm amber eyes. He is sociable, playful, and very smart. He likes to be with his care taker wherever they go. He can be trained to do tricks.',
+            description: 'Casper is a handsome pure dark grey Persian with warm amber eyes. He is sociable, playful, and very smart. He likes to be with his care taker wherever they go. He can be trained to do tricks.',
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-jasper.png',
+            imgFile: 'cat-casper.PNG',
             images: [
-                { dataUrl: null, filename: 'cat-jasper.png' }
+                { dataUrl: null, filename: 'cat-casper.PNG' }
             ]
         },
         {
@@ -80,9 +79,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-lola.png',
+            imgFile: 'cat-lola.PNG',
             images: [
-                { dataUrl: null, filename: 'cat-lola.png' }
+                { dataUrl: null, filename: 'cat-lola.PNG' }
             ]
         }
     ];
