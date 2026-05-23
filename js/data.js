@@ -28,9 +28,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-whitenip.png',
+            imgFile: 'cat-whitetip.png',
             images: [
-                { dataUrl: null, filename: 'cat-whitenip.png' },
+                { dataUrl: null, filename: 'cat-whitetip.png' },
             ]
         },
         {
