@@ -78,7 +78,7 @@ public_html/
 ### Setting Up the Google Form
 
 1. Go to [Google Forms](https://forms.google.com) and create your inquiry form
-2. Click **Send** → **Link** icon → copy the short URL ('https://maps.app.goo.gl/YU5e5iwoAeLTGF5y8`)
+2. Click **Send** → **Link** icon → copy the short URL ('<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3766.5674331466075!2d72.96742177427316!3d19.257674946245917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bbd0c8a944a7%3A0x71112b28fa7cef85!2sOnly%20Persian&#39;s!5e0!3m2!1sen!2sin!4v1779554155910!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`)
 3. In Admin Panel → **Contact & Info** → paste the URL in **Google Form URL** field
 4. Click **Save All Contact Information**
 5. Customers clicking "Open Inquiry Form" on the Contact page will now be redirected to your form
