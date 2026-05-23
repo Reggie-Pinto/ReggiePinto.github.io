@@ -90,7 +90,7 @@ const PP = (function () {
         phone:        '+91 8657388340',
         email:        'opersians@gmail.com',
         address:      'B104 Charnamrut Chs Ltd, Near Suraj Water Park, Above Tandoor Tawa Restaurant, Ghodbunder Road, Thane West - 400615',
-        hoursWeekday: 'Monday \u2013 Friday: 10:00 AM \u2013 07:00 PM',
+        hoursWeekday: ' \u2013: 10:00 AM \u2013 07:00 PM',
         hoursSat:     'Saturday: 10:00 AM \u2013 07:00 PM',
         hoursSun:     'Sunday: By Appointment Only',
         facebook:     '#',
@@ -119,7 +119,7 @@ const PP = (function () {
             const raw = localStorage.getItem(key);
             return raw ? JSON.parse(raw) : fallback;
         } catch (e) {
-            return fallback;
+            return fallback
         }
     }
 
