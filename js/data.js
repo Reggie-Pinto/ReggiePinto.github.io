@@ -23,7 +23,7 @@ const PP = (function () {
             color: 'Silver & White',
             gender: 'Male',
             age: '3 Months',
-            price: '\u20b95,000',
+            
             description: 'White Tip is a striking silver and white Tabby Persian. He is playful, curious, and loves interactive toys. He loves to play hide & seek. Will run continuously for hours on a stretch. Is playful and attached more to his twin sister.',
             vaccinated: true,
             microchipped: false,
