@@ -40,7 +40,7 @@ const PP = (function () {
             color: 'Dark Grey & Light Silver',
             gender: 'Female',
             age: '3 Months',
-            price: '\u20b95,000',
+            
             description: 'Ivy is a beautiful Dark grey face Persian kitten with deep blue eyes. She is calm, loving, and very affectionate. She is the smartest and the quickest in the group. She is playful, smart and loves being among humans.',
             vaccinated: true,
             microchipped: false,
@@ -57,7 +57,7 @@ const PP = (function () {
             color: 'Dark Grey',
             gender: 'Male',
             age: '3 Months',
-            price: '\u20b97,000',
+            
             description: 'Casper is a handsome pure dark grey Persian with warm amber eyes. He is sociable, playful, and very smart. He likes to be with his care taker wherever they go. He can be trained to do tricks.',
             vaccinated: true,
             microchipped: false,
@@ -74,7 +74,7 @@ const PP = (function () {
             color: 'Silver, White & Peach',
             gender: 'Female',
             age: '3 Months',
-            price: '\u20b95,000',
+            
             description: 'Lola is a very affectionate kitten. She is very playful, active, agile and naughty. She is also very loving and cuddly. She loves to stay close to her care givers. She has a unique peach face color pattern while her rest body is silver and white tabby & tuxedo pattern. She is a gentle girl.',
             vaccinated: true,
             microchipped: false,
