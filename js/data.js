@@ -28,9 +28,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-whitetip.PNG',
+            imgFile: 'cat-whitetip.png',
             images: [
-                { dataUrl: null, filename: 'cat-whitetip.PNG' },
+                { dataUrl: null, filename: 'cat-whitetip.png' },
             ]
         },
         {
@@ -45,9 +45,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-ivy.PNG',
+            imgFile: 'cat-ivy.png',
             images: [
-                { dataUrl: null, filename: 'cat-ivy.PNG' }
+                { dataUrl: null, filename: 'cat-ivy.png' }
             ]
         },
         {
@@ -62,9 +62,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-casper.PNG',
+            imgFile: 'cat-casper.png',
             images: [
-                { dataUrl: null, filename: 'cat-casper.PNG' }
+                { dataUrl: null, filename: 'cat-casper.png' }
             ]
         },
         {
@@ -79,9 +79,9 @@ const PP = (function () {
             vaccinated: true,
             microchipped: false,
             available: true,
-            imgFile: 'cat-lola.PNG',
+            imgFile: 'cat-lola.png',
             images: [
-                { dataUrl: null, filename: 'cat-lola.PNG' }
+                { dataUrl: null, filename: 'cat-lola.png' }
             ]
         }
     ];
