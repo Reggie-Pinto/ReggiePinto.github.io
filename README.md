@@ -78,7 +78,7 @@ public_html/
 ### Setting Up the Google Form
 
 1. Go to [Google Forms](https://forms.google.com) and create your inquiry form
-2. Click **Send** → **Link** icon → copy the short URL (e.g. `https://forms.gle/abc123`)
+2. Click **Send** → **Link** icon → copy the short URL ('https://maps.app.goo.gl/YU5e5iwoAeLTGF5y8`)
 3. In Admin Panel → **Contact & Info** → paste the URL in **Google Form URL** field
 4. Click **Save All Contact Information**
 5. Customers clicking "Open Inquiry Form" on the Contact page will now be redirected to your form
